@@ -246,7 +246,7 @@ const Checkout = () => {
                       <p className="text-sm font-medium text-gray-800 line-clamp-1">{item.product.name}</p>
                       <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
                     </div>
-                    <p className="font-semibold text-gray-800">${(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="font-semibold text-gray-800">RS {(item.price * item.quantity).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -254,20 +254,20 @@ const Checkout = () => {
               <div className="border-t pt-4 space-y-3">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>RS {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : `$${shipping.toFixed(2)}`}</span>
+                  <span>{shipping === 0 ? 'Free' : `RS {shipping.toFixed(2)}`}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax (10%)</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>RS {tax.toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-xl font-bold text-gray-800">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>RS {total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

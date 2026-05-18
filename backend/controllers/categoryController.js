@@ -23,7 +23,17 @@ exports.getCategory = async (req, res, next) => {
 
 exports.createCategory = async (req, res, next) => {
   try {
-    const category = await Category.create(req.body);
+    const categoryData = {
+      name: req.body.name,
+      description: req.body.description || '',
+      icon: req.body.icon || '',
+    };
+
+    if (req.file) {
+      categoryData.image = req.file.path;
+    }
+
+    const category = await Category.create(categoryData);
     res.status(201).json({ success: true, category });
   } catch (error) {
     next(error);
@@ -32,7 +42,17 @@ exports.createCategory = async (req, res, next) => {
 
 exports.updateCategory = async (req, res, next) => {
   try {
-    const category = await Category.findByIdAndUpdate(req.params.id, req.body, {
+    const updateData = {
+      name: req.body.name,
+      description: req.body.description,
+      icon: req.body.icon,
+    };
+
+    if (req.file) {
+      updateData.image = req.file.path;
+    }
+
+    const category = await Category.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true,
     });

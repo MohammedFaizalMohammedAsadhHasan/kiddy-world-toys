@@ -94,7 +94,7 @@ const Orders = () => {
                     </p>
                   </div>
                   <div className="mt-4 md:mt-0">
-                    <p className="text-2xl font-bold text-gray-800">${order.totalPrice.toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-gray-800">Rs {order.totalPrice.toFixed(2)}</p>
                   </div>
                 </div>
 
@@ -110,7 +110,7 @@ const Orders = () => {
                         <h3 className="font-semibold text-gray-800">{item.name}</h3>
                         <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                       </div>
-                      <p className="font-semibold text-gray-800">${(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-semibold text-gray-800">RS {(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   ))}
                 </div>

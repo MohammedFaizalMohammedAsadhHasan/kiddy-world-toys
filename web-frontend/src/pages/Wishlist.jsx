@@ -100,7 +100,7 @@ const Wishlist = () => {
                   </h3>
                 </Link>
                 <div className="flex items-center justify-between">
-                  <span className="text-lg font-bold text-pink-500">${product.price}</span>
+                  <span className="text-lg font-bold text-pink-500">RS{product.price}</span>
                   <button
                     onClick={() => addToCart(product._id)}
                     className="p-2 bg-gradient-to-r from-sky-400 to-pink-400 rounded-full hover:shadow-lg transition-all"

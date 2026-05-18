@@ -85,12 +85,12 @@ const Cart = () => {
                   className="w-24 h-24 object-cover rounded-lg"
                 />
                 <div className="flex-1">
-                  <Link to={`/product/${item.product._id}`}>
+                  <Link to={`/product/RS{item.product._id}`}>
                     <h3 className="font-semibold text-gray-800 hover:text-pink-500 transition-colors">
                       {item.product.name}
                     </h3>
                   </Link>
-                  <p className="text-pink-500 font-bold">${item.price}</p>
+                  <span className="text-pink-500 font-bold">RS {item.price}</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <button
@@ -108,7 +108,7 @@ const Cart = () => {
                   </button>
                 </div>
                 <div className="text-right">
-                  <p className="font-bold text-gray-800">${(item.price * item.quantity).toFixed(2)}</p>
+                  <p className="font-bold text-gray-800">RS {(item.price * item.quantity).toFixed(2)}</p>
                 </div>
                 <button
                   onClick={() => removeItem(item.product._id)}
@@ -128,20 +128,20 @@ const Cart = () => {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${cart.totalAmount.toFixed(2)}</span>
+                  <span>RS {cart.totalAmount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
-                  <span>{cart.totalAmount > 100 ? 'Free' : '$10.00'}</span>
+                  <span>{cart.totalAmount > 100 ? 'Free' : 'RS 10.00'}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Tax (10%)</span>
-                  <span>${(cart.totalAmount * 0.1).toFixed(2)}</span>
+                  <span>RS {(cart.totalAmount * 0.1).toFixed(2)}</span>
                 </div>
                 <div className="border-t pt-3">
                   <div className="flex justify-between text-xl font-bold text-gray-800">
                     <span>Total</span>
-                    <span>${(cart.totalAmount + (cart.totalAmount > 100 ? 0 : 10) + cart.totalAmount * 0.1).toFixed(2)}</span>
+                    <span>RS {(cart.totalAmount + (cart.totalAmount > 100 ? 0 : 10) + cart.totalAmount * 0.1).toFixed(2)}</span>
                   </div>
                 </div>
               </div>

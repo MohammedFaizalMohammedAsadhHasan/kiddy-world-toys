@@ -3,6 +3,9 @@ const Product = require('../models/Product');
 
 exports.getCart = async (req, res, next) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
     let cart = await Cart.findOne({ user: req.user.id }).populate('items.product');
     if (!cart) {
       cart = await Cart.create({ user: req.user.id, items: [] });
@@ -15,6 +18,9 @@ exports.getCart = async (req, res, next) => {
 
 exports.addToCart = async (req, res, next) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
     const { productId, quantity } = req.body;
     const product = await Product.findById(productId);
     if (!product) {
@@ -47,6 +53,9 @@ exports.addToCart = async (req, res, next) => {
 
 exports.updateCartItem = async (req, res, next) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
     const { productId, quantity } = req.body;
     const cart = await Cart.findOne({ user: req.user.id });
     if (!cart) {
@@ -68,6 +77,9 @@ exports.updateCartItem = async (req, res, next) => {
 
 exports.removeFromCart = async (req, res, next) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
     const cart = await Cart.findOne({ user: req.user.id });
     if (!cart) {
       return res.status(404).json({ success: false, message: 'Cart not found' });
@@ -84,6 +96,9 @@ exports.removeFromCart = async (req, res, next) => {
 
 exports.clearCart = async (req, res, next) => {
   try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
     const cart = await Cart.findOne({ user: req.user.id });
     if (cart) {
       cart.items = [];

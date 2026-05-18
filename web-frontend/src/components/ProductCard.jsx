@@ -80,16 +80,16 @@ const ProductCard = ({ product }) => {
             <div>
               {product.discountPrice > 0 ? (
                 <>
-                  <span className="text-lg font-bold text-pink-500">
-                    ${product.discountPrice}
+                    <span className="text-lg font-bold text-pink-500">
+                    Rs {product.discountPrice}
                   </span>
                   <span className="text-sm text-gray-400 line-through ml-2">
-                    ${product.price}
+                    Rs {product.price}
                   </span>
                 </>
               ) : (
                 <span className="text-lg font-bold text-gray-800">
-                  ${product.price}
+                  Rs {product.price}
                 </span>
               )}
             </div>

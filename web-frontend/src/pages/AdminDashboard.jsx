@@ -77,7 +77,7 @@ const AdminDashboard = () => {
           />
           <StatCard
             title="Total Revenue"
-            value={`$${stats.totalRevenue.toFixed(2)}`}
+            value={`Rs ${stats.totalRevenue.toFixed(2)}`}
             icon={DollarSign}
             color="bg-gradient-to-r from-yellow-400 to-yellow-500"
           />
@@ -126,7 +126,7 @@ const AdminDashboard = () => {
                       </span>
                     </td>
                     <td className="py-3 px-4 font-semibold text-gray-800">
-                      ${order.totalPrice.toFixed(2)}
+                      Rs {order.totalPrice.toFixed(2)}
                     </td>
                   </tr>
                 ))}

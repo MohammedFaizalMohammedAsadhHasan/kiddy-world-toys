@@ -15,41 +15,49 @@ const categories = [
     name: 'Soft Toys',
     description: 'Cuddly and soft toys for kids',
     emoji: '🧸',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
   },
   {
     name: 'Educational Toys',
     description: 'Learn while playing with educational toys',
     emoji: '📚',
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400',
   },
   {
     name: 'RC Cars',
     description: 'Remote control cars for racing fun',
     emoji: '🚗',
+    image: 'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=400',
   },
   {
     name: 'Dolls',
     description: 'Beautiful dolls for imaginative play',
     emoji: '🎎',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
   },
   {
     name: 'Puzzle Games',
     description: 'Brain-teasing puzzles for all ages',
     emoji: '🧩',
+    image: 'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400',
   },
   {
     name: 'Building Blocks',
     description: 'Build anything with creative blocks',
     emoji: '🧱',
+    image: 'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400',
   },
   {
     name: 'Outdoor Toys',
     description: 'Fun toys for outdoor adventures',
     emoji: '⚽',
+    image: 'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=400',
   },
   {
     name: 'Baby Toys',
     description: 'Safe and engaging toys for babies',
     emoji: '👶',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
   },
 ];
 
@@ -60,7 +68,7 @@ const products = [
     price: 29.99,
     category: 'Soft Toys',
     stock: 50,
-    ageGroup: '3+',
+    ageGroup: '3-5',
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
     ],
@@ -76,7 +84,7 @@ const products = [
     discountPrice: 39.99,
     category: 'RC Cars',
     stock: 30,
-    ageGroup: '6+',
+    ageGroup: '6-8',
     images: [
       'https://images.unsplash.com/photo-1594787318286-3d835c1d207f?w=400',
     ],
@@ -91,7 +99,7 @@ const products = [
     price: 34.99,
     category: 'Building Blocks',
     stock: 45,
-    ageGroup: '4+',
+    ageGroup: '3-5',
     images: [
       'https://images.unsplash.com/photo-1587654780291-39c9404d746b?w=400',
     ],
@@ -105,7 +113,7 @@ const products = [
     price: 24.99,
     category: 'Dolls',
     stock: 60,
-    ageGroup: '3+',
+    ageGroup: '3-5',
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
     ],
@@ -119,7 +127,7 @@ const products = [
     price: 19.99,
     category: 'Puzzle Games',
     stock: 40,
-    ageGroup: '2+',
+    ageGroup: '0-2',
     images: [
       'https://images.unsplash.com/photo-1596464716127-f2a82984de30?w=400',
     ],
@@ -132,7 +140,7 @@ const products = [
     price: 22.99,
     category: 'Outdoor Toys',
     stock: 55,
-    ageGroup: '5+',
+    ageGroup: '6-8',
     images: [
       'https://images.unsplash.com/photo-1614632537197-38a17061c2bd?w=400',
     ],
@@ -146,7 +154,7 @@ const products = [
     price: 14.99,
     category: 'Baby Toys',
     stock: 70,
-    ageGroup: '0+',
+    ageGroup: '0-2',
     images: [
       'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400',
     ],
@@ -159,7 +167,7 @@ const products = [
     price: 44.99,
     category: 'Educational Toys',
     stock: 25,
-    ageGroup: '8+',
+    ageGroup: '9-12',
     images: [
       'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400',
     ],
@@ -174,7 +182,7 @@ const products = [
     price: 59.99,
     category: 'Educational Toys',
     stock: 35,
-    ageGroup: '6+',
+    ageGroup: '6-8',
     images: [
       'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400',
     ],
@@ -189,7 +197,7 @@ const products = [
     price: 27.99,
     category: 'Educational Toys',
     stock: 50,
-    ageGroup: '5+',
+    ageGroup: '6-8',
     images: [
       'https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400',
     ],
@@ -204,7 +212,7 @@ const products = [
     discountPrice: 69.99,
     category: 'RC Cars',
     stock: 20,
-    ageGroup: '10+',
+    ageGroup: '12+',
     images: [
       'https://images.unsplash.com/photo-1507582020474-9a35b7d455d9?w=400',
     ],
@@ -219,7 +227,7 @@ const products = [
     price: 32.99,
     category: 'Educational Toys',
     stock: 40,
-    ageGroup: '3+',
+    ageGroup: '3-5',
     images: [
       'https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=400',
     ],

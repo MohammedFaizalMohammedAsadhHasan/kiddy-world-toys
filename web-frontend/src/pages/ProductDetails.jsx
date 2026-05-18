@@ -136,14 +136,14 @@ const ProductDetails = () => {
             <div className="mb-6">
               {product.discountPrice > 0 ? (
                 <>
-                  <span className="text-3xl font-bold text-pink-500">${product.discountPrice}</span>
-                  <span className="text-xl text-gray-400 line-through ml-3">${product.price}</span>
+                  <span className="text-3xl font-bold text-pink-500">RS{product.discountPrice}</span>
+                  <span className="text-xl text-gray-400 line-through ml-3">RS{product.price}</span>
                   <span className="ml-3 bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-semibold">
                     Save {Math.round(((product.price - product.discountPrice) / product.price) * 100)}%
                   </span>
                 </>
               ) : (
-                <span className="text-3xl font-bold text-gray-800">${product.price}</span>
+                <span className="text-3xl font-bold text-gray-800">RS{product.price}</span>
               )}
             </div>
 
@@ -195,7 +195,7 @@ const ProductDetails = () => {
             <div className="space-y-4">
               <div className="flex items-center space-x-3 text-gray-600">
                 <Truck className="w-5 h-5 text-sky-500" />
-                <span>Free shipping on orders over $100</span>
+                <span>Free shipping on orders over RS100</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-600">
                 <Shield className="w-5 h-5 text-pink-500" />
