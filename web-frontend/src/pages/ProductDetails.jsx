@@ -70,15 +70,17 @@ const ProductDetails = () => {
   }
 
   return (
-    <div className="py-8 px-4">
+    <div className="py-8 px-4 bg-gradient-to-br from-sky-50 via-pink-50 to-purple-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Breadcrumb */}
-        <div className="mb-8 text-sm text-gray-500">
-          <Link to="/" className="hover:text-pink-500">Home</Link>
-          <span className="mx-2">/</span>
-          <Link to="/shop" className="hover:text-pink-500">Shop</Link>
-          <span className="mx-2">/</span>
-          <span className="text-gray-800">{product.name}</span>
+        <div className="mb-8 text-sm">
+          <nav className="flex items-center space-x-2">
+            <Link to="/" className="text-pink-500 hover:text-pink-600 font-medium">Home</Link>
+            <span className="text-gray-400">/</span>
+            <Link to="/shop" className="text-pink-500 hover:text-pink-600 font-medium">Shop</Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-600 font-medium">{product.name}</span>
+          </nav>
         </div>
 
         {/* Product Details */}
@@ -86,156 +88,196 @@ const ProductDetails = () => {
           {/* Images */}
           <div>
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="glass-card p-4 rounded-2xl mb-4"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white/80 backdrop-blur-lg p-6 rounded-3xl shadow-2xl border border-white/20 mb-6"
             >
               <img
                 src={product.images[selectedImage] || product.thumbnail || 'https://via.placeholder.com/600x600'}
                 alt={product.name}
-                className="w-full h-96 object-contain rounded-xl"
+                className="w-full h-[500px] object-contain rounded-2xl"
               />
             </motion.div>
-            {product.images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
+            {product.images && product.images.length > 1 && (
+              <div className="grid grid-cols-4 gap-3">
                 {product.images.map((img, index) => (
-                  <button
+                  <motion.button
                     key={index}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
                     onClick={() => setSelectedImage(index)}
-                    className={`p-2 rounded-xl border-2 transition-all ${
-                      selectedImage === index ? 'border-pink-500' : 'border-transparent'
+                    className={`p-2 rounded-2xl border-2 transition-all overflow-hidden ${
+                      selectedImage === index 
+                        ? 'border-pink-500 shadow-lg shadow-pink-500/30' 
+                        : 'border-transparent hover:border-pink-300'
                     }`}
                   >
-                    <img src={img} alt={`Thumbnail ${index}`} className="w-full h-20 object-cover rounded-lg" />
-                  </button>
+                    <img src={img} alt={`Thumbnail ${index}`} className="w-full h-20 object-cover rounded-xl" />
+                  </motion.button>
                 ))}
               </div>
             )}
           </div>
 
           {/* Info */}
-          <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">{product.name}</h1>
-            
-            <div className="flex items-center mb-4">
-              <div className="flex items-center">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className={`w-5 h-5 ${
-                      i < Math.floor(product.rating)
-                        ? 'text-yellow-400 fill-current'
-                        : 'text-gray-300'
-                    }`}
-                  />
-                ))}
+          <div className="space-y-6">
+            <div>
+              <span className="inline-block px-4 py-1 bg-gradient-to-r from-sky-500 to-pink-500 text-white text-sm font-semibold rounded-full mb-3">
+                {product.category?.name || 'Toys'}
+              </span>
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-800 via-gray-700 to-gray-800 bg-clip-text text-transparent mb-4">
+                {product.name}
+              </h1>
+              
+              <div className="flex items-center space-x-4 mb-4">
+                <div className="flex items-center">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-6 h-6 ${
+                        i < Math.floor(product.rating)
+                          ? 'text-yellow-400 fill-current'
+                          : 'text-gray-300'
+                      }`}
+                    />
+                  ))}
+                </div>
+                <span className="text-gray-500 font-medium">({product.numReviews} reviews)</span>
               </div>
-              <span className="text-gray-500 ml-2">({product.numReviews} reviews)</span>
             </div>
 
-            <div className="mb-6">
+            <div className="p-6 bg-gradient-to-br from-sky-100 via-pink-100 to-purple-100 rounded-2xl">
               {product.discountPrice > 0 ? (
-                <>
-                  <span className="text-3xl font-bold text-pink-500">RS{product.discountPrice}</span>
-                  <span className="text-xl text-gray-400 line-through ml-3">RS{product.price}</span>
-                  <span className="ml-3 bg-pink-100 text-pink-600 px-3 py-1 rounded-full text-sm font-semibold">
+                <div className="flex items-center space-x-4">
+                  <span className="text-4xl font-bold bg-gradient-to-r from-pink-500 to-purple-500 bg-clip-text text-transparent">
+                    RS{product.discountPrice}
+                  </span>
+                  <span className="text-2xl text-gray-400 line-through">RS{product.price}</span>
+                  <span className="px-4 py-2 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-sm font-bold shadow-lg">
                     Save {Math.round(((product.price - product.discountPrice) / product.price) * 100)}%
                   </span>
-                </>
+                </div>
               ) : (
-                <span className="text-3xl font-bold text-gray-800">RS{product.price}</span>
+                <span className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                  RS{product.price}
+                </span>
               )}
             </div>
 
-            <p className="text-gray-600 mb-6 leading-relaxed">{product.description}</p>
+            <p className="text-gray-600 leading-relaxed text-lg">{product.description}</p>
 
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="flex items-center space-x-3">
-                <button
+            <div className="flex items-center space-x-6 p-4 bg-white/50 backdrop-blur rounded-2xl">
+              <div className="flex items-center space-x-4">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  className="p-3 rounded-full bg-gradient-to-r from-sky-400 to-pink-400 text-white shadow-lg hover:shadow-xl transition-all"
                 >
                   <Minus className="w-5 h-5" />
-                </button>
-                <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
-                <button
+                </motion.button>
+                <span className="text-2xl font-bold w-12 text-center">{quantity}</span>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   onClick={() => setQuantity(quantity + 1)}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+                  className="p-3 rounded-full bg-gradient-to-r from-sky-400 to-pink-400 text-white shadow-lg hover:shadow-xl transition-all"
                 >
                   <Plus className="w-5 h-5" />
-                </button>
+                </motion.button>
               </div>
-              <span className="text-gray-500">
+              <span className={`font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}
               </span>
             </div>
 
-            <div className="flex space-x-4 mb-8">
+            <div className="flex space-x-4">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
                 onClick={handleAddToCart}
                 disabled={product.stock === 0}
-                className="flex-1 gradient-btn flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-4 px-6 bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all flex items-center justify-center space-x-3 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <ShoppingCart className="w-5 h-5" />
+                <ShoppingCart className="w-6 h-6" />
                 <span>Add to Cart</span>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleAddToWishlist}
-                className="p-3 rounded-full border-2 border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-white transition-all"
+                className="p-4 rounded-2xl border-2 border-pink-500 text-pink-500 hover:bg-gradient-to-r hover:from-pink-500 hover:to-purple-500 hover:text-white transition-all shadow-lg"
               >
-                <Heart className="w-5 h-5" />
+                <Heart className="w-6 h-6" />
               </motion.button>
             </div>
 
             {/* Features */}
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3 text-gray-600">
-                <Truck className="w-5 h-5 text-sky-500" />
-                <span>Free shipping on orders over RS100</span>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="flex items-center space-x-3 p-4 bg-white/50 backdrop-blur rounded-2xl">
+                <div className="p-3 bg-gradient-to-br from-sky-400 to-sky-500 rounded-xl">
+                  <Truck className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-gray-700 font-medium">Free Shipping</span>
               </div>
-              <div className="flex items-center space-x-3 text-gray-600">
-                <Shield className="w-5 h-5 text-pink-500" />
-                <span>100% authentic products</span>
+              <div className="flex items-center space-x-3 p-4 bg-white/50 backdrop-blur rounded-2xl">
+                <div className="p-3 bg-gradient-to-br from-pink-400 to-pink-500 rounded-xl">
+                  <Shield className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-gray-700 font-medium">100% Authentic</span>
               </div>
-              <div className="flex items-center space-x-3 text-gray-600">
-                <RotateCcw className="w-5 h-5 text-purple-500" />
-                <span>30-day easy returns</span>
+              <div className="flex items-center space-x-3 p-4 bg-white/50 backdrop-blur rounded-2xl">
+                <div className="p-3 bg-gradient-to-br from-purple-400 to-purple-500 rounded-xl">
+                  <RotateCcw className="w-6 h-6 text-white" />
+                </div>
+                <span className="text-gray-700 font-medium">Easy Returns</span>
               </div>
             </div>
 
             {/* Age Group */}
-            <div className="mt-6 p-4 bg-gradient-to-r from-sky-100 to-pink-100 rounded-xl">
-              <span className="text-sm font-medium text-gray-700">Recommended Age:</span>
-              <span className="ml-2 text-lg font-bold text-gray-800">{product.ageGroup} years</span>
+            <div className="p-6 bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 rounded-2xl text-white shadow-xl">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium opacity-90">Recommended Age</p>
+                  <p className="text-3xl font-bold">{product.ageGroup}+ years</p>
+                </div>
+                <div className="text-6xl">🎮</div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Reviews Section */}
         <div className="mb-16">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Customer Reviews</h2>
+          <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-8">
+            Customer Reviews
+          </h2>
           {reviews.length === 0 ? (
-            <p className="text-gray-500">No reviews yet. Be the first to review!</p>
+            <div className="text-center py-12 bg-white/50 backdrop-blur rounded-3xl">
+              <p className="text-gray-500 text-lg">No reviews yet. Be the first to review! ⭐</p>
+            </div>
           ) : (
-            <div className="space-y-4">
+            <div className="space-y-6">
               {reviews.map((review) => (
-                <div key={review._id} className="glass-card p-6 rounded-xl">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-r from-sky-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold">
+                <motion.div
+                  key={review._id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="bg-white/80 backdrop-blur-lg p-6 rounded-3xl shadow-xl border border-white/20"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-sky-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold text-xl shadow-lg">
                         {review.user.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="font-semibold text-gray-800">{review.user.name}</p>
+                        <p className="font-bold text-gray-800">{review.user.name}</p>
                         <div className="flex items-center">
                           {[...Array(5)].map((_, i) => (
                             <Star
                               key={i}
-                              className={`w-4 h-4 ${
+                              className={`w-5 h-5 ${
                                 i < review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
                               }`}
                             />
@@ -243,13 +285,13 @@ const ProductDetails = () => {
                         </div>
                       </div>
                     </div>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-gray-500 font-medium">
                       {new Date(review.createdAt).toLocaleDateString()}
                     </span>
                   </div>
-                  <h4 className="font-semibold text-gray-800 mb-2">{review.title}</h4>
-                  <p className="text-gray-600">{review.comment}</p>
-                </div>
+                  <h4 className="font-bold text-gray-800 mb-2 text-lg">{review.title}</h4>
+                  <p className="text-gray-600 leading-relaxed">{review.comment}</p>
+                </motion.div>
               ))}
             </div>
           )}
@@ -258,7 +300,9 @@ const ProductDetails = () => {
         {/* Related Products */}
         {relatedProducts.length > 0 && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">Related Products</h2>
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-8">
+              Related Products
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((product) => (
                 <ProductCard key={product._id} product={product} />

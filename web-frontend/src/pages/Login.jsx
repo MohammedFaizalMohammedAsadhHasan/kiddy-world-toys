@@ -38,21 +38,24 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-sky-100 via-pink-50 to-purple-100">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="w-full max-w-md"
       >
-        <div className="glass-card p-8 rounded-2xl">
+        <div className="bg-white/80 backdrop-blur-lg p-8 rounded-3xl shadow-2xl border border-white/20">
           <div className="text-center mb-8">
+            <div className="w-20 h-20 bg-gradient-to-br from-sky-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <Lock className="w-10 h-10 text-white" />
+            </div>
             <h1 className="text-3xl font-bold bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 bg-clip-text text-transparent mb-2">
               Welcome Back!
             </h1>
-            <p className="text-gray-600">Sign in to continue shopping</p>
+            <p className="text-gray-600">Sign in to continue shopping 🧸</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
               <div className="relative">
@@ -63,7 +66,7 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border-2 border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all bg-white/50"
                   placeholder="Enter your email"
                 />
               </div>
@@ -79,7 +82,7 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full pl-10 pr-12 py-3 rounded-xl border border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all"
+                  className="w-full pl-10 pr-12 py-3 rounded-xl border-2 border-gray-200 focus:border-pink-500 focus:ring-2 focus:ring-pink-200 outline-none transition-all bg-white/50"
                   placeholder="Enter your password"
                 />
                 <button
@@ -97,7 +100,7 @@ const Login = () => {
                 <input type="checkbox" className="rounded border-gray-300 text-pink-500 focus:ring-pink-500" />
                 <span className="ml-2 text-sm text-gray-600">Remember me</span>
               </label>
-              <Link to="/forgot-password" className="text-sm text-pink-500 hover:text-pink-600">
+              <Link to="/forgot-password" className="text-sm text-pink-500 hover:text-pink-600 font-semibold">
                 Forgot password?
               </Link>
             </div>
@@ -107,7 +110,7 @@ const Login = () => {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={loading}
-              className="w-full gradient-btn disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 bg-gradient-to-r from-sky-500 via-pink-500 to-purple-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </motion.button>

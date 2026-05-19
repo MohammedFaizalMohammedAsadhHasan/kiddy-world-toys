@@ -1,12 +1,19 @@
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const User = require('../models/User');
+const OTP = require('../models/OTP');
+const sendEmail = require('../utils/email');
 
 // Generate JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRE,
   });
+};
+
+// Generate OTP
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
 };
 
 // @desc    Register user
@@ -25,26 +32,41 @@ exports.register = async (req, res, next) => {
       });
     }
 
-    // Create user
-    const user = await User.create({
-      name,
+    // Generate OTP
+    const otp = generateOTP();
+
+    // Save OTP to database
+    await OTP.create({
       email,
-      password,
-      phone,
+      otp,
+      type: 'registration',
     });
 
-    // Generate token
-    const token = generateToken(user._id);
+    // Send OTP email
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #ff6b6b;">Welcome to Kiddy World Toys! 🧸</h2>
+        <p>Hi ${name},</p>
+        <p>Thank you for registering with Kiddy World Toys. To complete your registration, please use the following OTP:</p>
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
+          <h1 style="font-size: 48px; margin: 0; letter-spacing: 10px;">${otp}</h1>
+        </div>
+        <p><strong>This OTP will expire in 5 minutes.</strong></p>
+        <p>If you didn't request this, please ignore this email.</p>
+        <p>Best regards,<br>Kiddy World Toys Team</p>
+      </div>
+    `;
 
-    res.status(201).json({
+    await sendEmail({
+      email,
+      subject: 'Verify Your Email - Kiddy World Toys',
+      html,
+    });
+
+    res.status(200).json({
       success: true,
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      message: 'OTP sent to your email. Please verify to complete registration.',
+      email,
     });
   } catch (error) {
     next(error);
@@ -219,6 +241,107 @@ exports.forgotPassword = async (req, res, next) => {
         message: 'Email could not be sent',
       });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Verify OTP and complete registration
+// @route   POST /api/auth/verify-otp
+// @access  Public
+exports.verifyOTP = async (req, res, next) => {
+  try {
+    const { email, otp, name, password, phone } = req.body;
+
+    // Find valid OTP
+    const otpRecord = await OTP.findOne({
+      email,
+      otp,
+      type: 'registration',
+      expiresAt: { $gt: Date.now() },
+    });
+
+    if (!otpRecord) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired OTP',
+      });
+    }
+
+    // Delete OTP
+    await OTP.deleteOne({ _id: otpRecord._id });
+
+    // Create user
+    const user = await User.create({
+      name,
+      email,
+      password,
+      phone,
+      isVerified: true,
+    });
+
+    // Generate token
+    const token = generateToken(user._id);
+
+    res.status(201).json({
+      success: true,
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Resend OTP
+// @route   POST /api/auth/resend-otp
+// @access  Public
+exports.resendOTP = async (req, res, next) => {
+  try {
+    const { email, name } = req.body;
+
+    // Generate new OTP
+    const otp = generateOTP();
+
+    // Delete old OTPs for this email
+    await OTP.deleteMany({ email });
+
+    // Save new OTP
+    await OTP.create({
+      email,
+      otp,
+      type: 'registration',
+    });
+
+    // Send OTP email
+    const html = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h2 style="color: #ff6b6b;">New OTP - Kiddy World Toys 🧸</h2>
+        <p>Hi ${name || 'there'},</p>
+        <p>Here is your new OTP for registration:</p>
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
+          <h1 style="font-size: 48px; margin: 0; letter-spacing: 10px;">${otp}</h1>
+        </div>
+        <p><strong>This OTP will expire in 5 minutes.</strong></p>
+        <p>Best regards,<br>Kiddy World Toys Team</p>
+      </div>
+    `;
+
+    await sendEmail({
+      email,
+      subject: 'New OTP - Kiddy World Toys',
+      html,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: 'New OTP sent to your email',
+    });
   } catch (error) {
     next(error);
   }
